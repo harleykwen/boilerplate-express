@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import { sendCustomResponse, statusCode } from './config/http.config'
 import express, { 
     Express, 
     Request, 
@@ -24,12 +25,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
  
 app.get('/', (req: Request, res: Response) => {
-    return res?.status(200)?.json({
-        status: 200,
-        error: false,
-        data: null,
-        message: 'Hello World!',
-    })
+    return sendCustomResponse(res, false, statusCode.OK.code, 'Hello World!')
 })
  
 app.listen(port, () => {
