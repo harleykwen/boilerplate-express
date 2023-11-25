@@ -1,17 +1,20 @@
+import dotenv from 'dotenv'
 import express, { 
     Express, 
     Request, 
     Response, 
     NextFunction,
 } from 'express'
-import dotenv from 'dotenv'
 
 dotenv.config()
  
 const app: Express = express()
-const port = process.env.PORT
+const port: string | undefined = process.env.PORT
 
-app.use((req: Request, res: Response, next: NextFunction) => { // Handle error CORS policy
+/**
+ * Handle CORS policy
+ */
+app.use((req: Request, res: Response, next: NextFunction) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Access-Control-Allow-Method', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
