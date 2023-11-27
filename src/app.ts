@@ -6,6 +6,7 @@ import express, {
     Response, 
     NextFunction,
 } from 'express'
+import { testConnection } from './config/db.config'
 
 dotenv.config()
  
@@ -25,7 +26,16 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
  
 app.get('/', (req: Request, res: Response) => {
-    return sendCustomResponse(res, false, statusCode.OK.code, 'Hello World!')
+    return sendCustomResponse({
+        response: res,
+        status: statusCode.OK.code,
+        error: false,
+        message: 'Hello World!',
+    })
+})
+
+app.get('/test-database-connection', (req: Request, res: Response) => {
+    return testConnection(res)
 })
  
 app.listen(port, () => {

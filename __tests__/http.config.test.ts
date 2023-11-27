@@ -270,11 +270,16 @@ describe('http.config.ts | sendCustomResponse', () => {
         const mockRes: any = { status: jest.fn().mockReturnThis(), json: jest.fn() }
         const mockData = { key: 'value' }
 
-        sendCustomResponse(mockRes, false, statusCode.OK.code, statusCode.OK.name, mockData)
+        sendCustomResponse({
+            response: mockRes,
+            error: false,
+            status: statusCode.OK.code,
+            message: statusCode.OK.name,
+            data: mockData,
+        })
 
         expect(mockRes.status).toHaveBeenCalledWith(statusCode.OK.code)
         expect(mockRes.json).toHaveBeenCalledWith({
-            res: mockRes,
             error: false,
             status: statusCode.OK.code,
             message: statusCode.OK.name,
@@ -285,13 +290,17 @@ describe('http.config.ts | sendCustomResponse', () => {
     it('should send a custom response without data', () => {
         const mockRes: any = { status: jest.fn().mockReturnThis(), json: jest.fn() }
 
-        sendCustomResponse(mockRes, true, statusCode.INTERNAL_SERVER_ERROR.code, statusCode.INTERNAL_SERVER_ERROR.name)
+        sendCustomResponse({
+            response: mockRes,
+            status: statusCode.INTERNAL_SERVER_ERROR.code,
+            error: true,
+            message: statusCode.INTERNAL_SERVER_ERROR.name,
+        })
 
         expect(mockRes.status).toHaveBeenCalledWith(statusCode.INTERNAL_SERVER_ERROR.code)
         expect(mockRes.json).toHaveBeenCalledWith({
-            res: mockRes,
-            error: true,
             status: statusCode.INTERNAL_SERVER_ERROR.code,
+            error: true,
             message: statusCode.INTERNAL_SERVER_ERROR.name,
         })
     })

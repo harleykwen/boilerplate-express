@@ -7,8 +7,15 @@ export type TypeStatusCode = {
     }
 }
 
+export type CustomResponseProps = {
+    response: Response
+    error: boolean
+    status: number
+    message: string
+    data?: any
+}
+
 export type TypeCustomResponse = {
-    res: Response
     error: boolean
     status: number
     message: string
@@ -266,12 +273,19 @@ export const statusCode: TypeStatusCode = {
     }
 }
 
-export function sendCustomResponse(res: Response, error: boolean, status: number, message: string, data?: any) {
-    const customResponse: TypeCustomResponse = { res, error, status, message }
+export function sendCustomResponse(props: CustomResponseProps) {
+    const {
+        response,
+        error,
+        status,
+        message,
+        data,
+    } = props
+    const customResponse: TypeCustomResponse = { error, status, message }
 
     if (data) {
         customResponse.data = data
     }
 
-    res.status(status).json(customResponse)
+    response.status(status).json(customResponse)
 }
